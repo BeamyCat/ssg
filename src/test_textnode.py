@@ -38,6 +38,11 @@ class TestTextNode(unittest.TestCase):
         node = TextNode("Picrew", TextType.IMAGE, "https://beamycat.neocities.org/img/picrew/beamy_picrew.png")
         node2 = TextNode("Picrew", TextType.IMAGE, "https://beamycat.neocities.org/img/picrew/beamy_picrew.png")
         self.assertEqual(node, node2)
+    
+    def test_eq_none(self):
+        node = TextNode("Null link", TextType.LINK)
+        node2 = TextNode("Null link", TextType.LINK, None)
+        self.assertEqual(node, node2)
        
     ########## NOT EQUALS ##########
     def test_not_eq_text(self):
