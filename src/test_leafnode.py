@@ -23,6 +23,18 @@ class TestLeafNode(unittest.TestCase):
         node = LeafNode(None, "foobar")
         self.assertEqual(node.to_html(), "foobar")
     
+    def test_leaf_to_html_empty_tag(self):
+        node = LeafNode("", "foobar")
+        self.assertEqual(node.to_html(), "foobar")
+    
+    def test_leaf_to_html_value_empty(self):
+        node = LeafNode("p", "")
+        self.assertEqual(node.to_html(), "<p></p>")
+    
+    def test_leaf_to_html_tag_and_value_empty(self):
+        node = LeafNode("", "")
+        self.assertEqual(node.to_html(), "")
+    
     def test_leaf_to_html_value_error(self):
         node = LeafNode("p", None)
         with self.assertRaises(ValueError):
