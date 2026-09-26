@@ -1,1 +1,1 @@
-ssg
+# Boot.dev Static Site Generator
