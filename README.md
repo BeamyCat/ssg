@@ -1,1 +1,1 @@
-bootdev-ssg
+ssg
