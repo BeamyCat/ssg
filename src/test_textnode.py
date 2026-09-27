@@ -1,5 +1,6 @@
 import unittest
-from textnode import TextNode, TextType, text_node_to_html_node
+from textnode import TextNode, TextType
+from util import text_node_to_html_node, split_node_delimiter, split_nodes_delimiter
 
 
 class TestTextNode(unittest.TestCase):
@@ -64,48 +65,7 @@ class TestTextNode(unittest.TestCase):
         node = TextNode("foobar", TextType.LINK, "https://beamycat.neocities.org")
         node2 = TextNode("foobar", TextType.LINK)
         self.assertNotEqual(node, node2)
-    
-    ########## TEXT NODE TO HTML NODE ##########
-    def test_text_node_to_html_node(self):
-        node = TextNode("foobar", TextType.PLAIN)
-        html_node = text_node_to_html_node(node)
-        self.assertEqual(html_node.tag, None)
-        self.assertEqual(html_node.value, "foobar")
-    
-    def test_to_html_italic(self):
-        node = TextNode("Per aspera ad astra.", TextType.ITALIC)
-        html_node = text_node_to_html_node(node)
-        self.assertEqual(html_node.tag, 'i')
-        self.assertEqual(html_node.value, "Per aspera ad astra.")
-    
-    def test_to_html_bold(self):
-        node = TextNode("Become endless? To hell with that!", TextType.BOLD)
-        html_node = text_node_to_html_node(node)
-        self.assertEqual(html_node.tag, 'b')
-        self.assertEqual(html_node.value, "Become endless? To hell with that!")
-    
-    def test_to_html_code(self):
-        node = TextNode("DIS-OS ERROR REPORT", TextType.CODE)
-        html_node = text_node_to_html_node(node)
-        self.assertEqual(html_node.tag, 'code')
-        self.assertEqual(html_node.value, "DIS-OS ERROR REPORT")
-    
-    def test_to_html_link(self):
-        node = TextNode("BeamyCat", TextType.LINK, "https://beamycat.neocities.org")
-        html_node = text_node_to_html_node(node)
-        self.assertEqual(html_node.tag, 'a')
-        self.assertEqual(html_node.value, "BeamyCat")
-        self.assertEqual(html_node.props, {"href": "https://beamycat.neocities.org"})
-    
-    def test_to_html_image(self):
-        node = TextNode("Picrew", TextType.IMAGE, "https://beamycat.neocities.org/img/picrew/beamy_picrew.png")
-        html_node = text_node_to_html_node(node)
-        self.assertEqual(html_node.tag, 'img')
-        self.assertEqual(html_node.value, "")
-        self.assertEqual(html_node.props, {
-            "src": "https://beamycat.neocities.org/img/picrew/beamy_picrew.png",
-            "alt": "Picrew",
-        })
+        
 
 
 if __name__ == "__main__":
