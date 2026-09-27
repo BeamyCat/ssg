@@ -1,5 +1,5 @@
 import unittest
-from blocks import BlockType, markdown_to_blocks, block_to_block_type
+from blocks import BlockType, markdown_to_blocks, block_to_block_type, markdown_to_html_node
 
 
 class TestUtilBlock(unittest.TestCase):
@@ -123,6 +123,73 @@ DIS-OS ERROR REPORT
 11. Rearcannon
 111. Tiny Valor"""
         self.assertEqual(block_to_block_type(block), BlockType.ORDERED_LIST)
+    
+    ########## MARKDOWN TO HTML NODE ##########
+    def test_paragraphs(self):
+        md = """
+This is **bolded** paragraph
+text in a p
+tag here
+
+This is another paragraph with _italic_ text and `code` here
+
+"""
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html,
+            "<div><p>This is <b>bolded</b> paragraph text in a p tag here</p><p>This is another paragraph with <i>italic</i> text and <code>code</code> here</p></div>",
+        )
+
+
+    def test_codeblock(self):
+        md = """
+```
+This is text that _should_ remain
+the **same** even with inline stuff
+```
+"""
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html,
+            "<div><pre><code>This is text that _should_ remain\nthe **same** even with inline stuff</code></pre></div>",
+        )
+    
+    def test_markdown_to_html_node(self):
+        self.maxDiff = None
+        md = """
+# This is a heading
+
+## This is a smaller heading
+
+###### This is the smallest heading
+
+This is text with a [link to BeamyCat](https://beamycat.neocities.org), an image of BeamyCat ![Picrew](https://beamycat.neocities.org/img/picrew/beamy_picrew.png), and some `awesome code`. _Per aspera ad astra_. **\"Become endless? To hell with that! I'm happy right here, right now.\"**
+
+```
+DIS-OS REPORT 01/09/102023
+FATAL_ERROR: *BR NULL*
+```
+
+> Become endless?
+> **To hell with that!**
+> I'm happy right _here_, right _now_.
+> Because I love you.
+
+- Per aspera ad astra.
+- _Ad meliora._
+- **The adventure of life goes on!**
+
+## **MAY YOU ATTAIN ENLIGHTENMENT**
+
+1. DIAGONAL FIRE
+2. **REARCANNON**
+11. _TINY VALOR_
+"""
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(html, '<div><h1>This is a heading</h1><h2>This is a smaller heading</h2><h6>This is the smallest heading</h6><p>This is text with a <a href="https://beamycat.neocities.org">link to BeamyCat</a>, an image of BeamyCat <img src="https://beamycat.neocities.org/img/picrew/beamy_picrew.png" alt="Picrew"></img>, and some <code>awesome code</code>. <i>Per aspera ad astra</i>. <b>"Become endless? To hell with that! I\'m happy right here, right now."</b></p><pre><code>DIS-OS REPORT 01/09/102023\nFATAL_ERROR: *BR NULL*</code></pre><blockquote>Become endless? <b>To hell with that!</b> I\'m happy right <i>here</i>, right <i>now</i>. Because I love you.</blockquote><ul><li>Per aspera ad astra.</li><li><i>Ad meliora.</i></li><li><b>The adventure of life goes on!</b></li></ul><h2><b>MAY YOU ATTAIN ENLIGHTENMENT</b></h2><ol><li>DIAGONAL FIRE</li><li><b>REARCANNON</b></li><li><i>TINY VALOR</i></li></ol></div>')
 
 
 if __name__ == "__main__":
