@@ -3,7 +3,7 @@ from textnode import TextNode, TextType
 from util import text_node_to_html_node, split_nodes_delimiter, extract_markdown_images, extract_markdown_links, split_nodes_image, split_nodes_link, text_to_textnodes
 
 
-class TestUtil(unittest.TestCase):
+class TestUtilInline(unittest.TestCase):
     ########## TEXT NODE TO HTML NODE ##########
     def test_text_node_to_html_node(self):
         node = TextNode("foobar", TextType.PLAIN)
