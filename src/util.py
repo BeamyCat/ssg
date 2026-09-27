@@ -26,6 +26,9 @@ def text_node_to_html_node(text_node: TextNode) -> LeafNode:
 def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: TextType) -> list[TextNode]:
     new_nodes: list[TextNode] = []
     for node in old_nodes:
+        if node.text_type == TextType.IMAGE or node.text_type == TextType.LINK:
+            new_nodes.append(node)
+            continue
         if node.text.count(delimiter) % 2 != 0:
             raise Exception("missing matching delimiter")
         
@@ -90,6 +93,16 @@ def split_nodes_link(old_nodes: list[TextNode]) -> list[TextNode]:
         if text != '':
             new_nodes.append(TextNode(text, node.text_type))
     return new_nodes
+
+
+def text_to_textnodes(text: str) -> list[TextNode]:
+    nodes: list[TextNode] = [TextNode(text, TextType.PLAIN)]
+    nodes = split_nodes_image(nodes)
+    nodes = split_nodes_link(nodes)
+    nodes = split_nodes_delimiter(nodes, '**', TextType.BOLD)
+    nodes = split_nodes_delimiter(nodes, '_', TextType.ITALIC)
+    nodes = split_nodes_delimiter(nodes, '`', TextType.CODE)
+    return nodes
         
 
 

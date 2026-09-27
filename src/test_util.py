@@ -1,6 +1,6 @@
 import unittest
 from textnode import TextNode, TextType
-from util import text_node_to_html_node, split_nodes_delimiter, extract_markdown_images, extract_markdown_links, split_nodes_image, split_nodes_link
+from util import text_node_to_html_node, split_nodes_delimiter, extract_markdown_images, extract_markdown_links, split_nodes_image, split_nodes_link, text_to_textnodes
 
 
 class TestUtil(unittest.TestCase):
@@ -433,6 +433,40 @@ class TestUtil(unittest.TestCase):
             TextNode("Vivian Cottonsmith", TextType.IMAGE, "https://beamycat.neocities.org/art/img/vivian-cottonsmith.png"),
         ], new_nodes)
     
+    ########## TEXT TO TEXTNODES ##########
+    def test_text_to_textnodes(self):
+        text = "This is **text** with an _italic_ word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
+        nodes = text_to_textnodes(text)
+        test_nodes = [
+            TextNode("This is ", TextType.PLAIN),
+            TextNode("text", TextType.BOLD),
+            TextNode(" with an ", TextType.PLAIN),
+            TextNode("italic", TextType.ITALIC),
+            TextNode(" word and a ", TextType.PLAIN),
+            TextNode("code block", TextType.CODE),
+            TextNode(" and an ", TextType.PLAIN),
+            TextNode("obi wan image", TextType.IMAGE, "https://i.imgur.com/fJRm4Vk.jpeg"),
+            TextNode(" and a ", TextType.PLAIN),
+            TextNode("link", TextType.LINK, "https://boot.dev"),
+        ]
+        self.assertListEqual(nodes, test_nodes)
+    
+    def test_text_to_textnodes2(self):
+        text = "This is text with a [link to BeamyCat](https://beamycat.neocities.org), an image of BeamyCat ![Picrew](https://beamycat.neocities.org/img/picrew/beamy_picrew.png), and some `awesome code`. _Per aspera ad astra_. **\"Become endless? To hell with that! I'm happy right here, right now.\"**"
+        nodes = text_to_textnodes(text)
+        test_nodes = [
+            TextNode("This is text with a ", TextType.PLAIN),
+            TextNode("link to BeamyCat", TextType.LINK, "https://beamycat.neocities.org"),
+            TextNode(", an image of BeamyCat ", TextType.PLAIN),
+            TextNode("Picrew", TextType.IMAGE, "https://beamycat.neocities.org/img/picrew/beamy_picrew.png"),
+            TextNode(", and some ", TextType.PLAIN),
+            TextNode("awesome code", TextType.CODE),
+            TextNode(". ", TextType.PLAIN),
+            TextNode("Per aspera ad astra", TextType.ITALIC),
+            TextNode(". ", TextType.PLAIN),
+            TextNode("\"Become endless? To hell with that! I'm happy right here, right now.\"", TextType.BOLD),
+        ]
+        self.assertListEqual(nodes, test_nodes)
     
         
 
