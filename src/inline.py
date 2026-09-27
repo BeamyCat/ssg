@@ -2,9 +2,6 @@ from textnode import TextNode, TextType
 from leafnode import LeafNode
 import re
 
-#######################################
-# INLINE FUNCTIONS
-#######################################
 
 def text_node_to_html_node(text_node: TextNode) -> LeafNode:
     match text_node.text_type:

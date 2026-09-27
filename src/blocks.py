@@ -3,7 +3,7 @@ import re
 from textnode import TextType, TextNode
 from leafnode import LeafNode
 from parentnode import ParentNode
-from util import text_to_textnodes, text_node_to_html_node
+from inline import text_to_textnodes, text_node_to_html_node
 
 
 BlockType = Enum("BlockType", [
