@@ -34,6 +34,10 @@ def generate_pages_recursive(source: str, destination: str) -> None:
 
 
 def main() -> None:
+    global basepath
+    if len(sys.argv) > 1:
+        basepath = sys.argv[1]
+    
     if os.path.exists("docs"):
         shutil.rmtree("docs")
         print("Removed old docs directory.")
@@ -41,14 +45,8 @@ def main() -> None:
     os.mkdir("docs")
     print("Created new docs directory.")
     
-    global basepath
-    if len(sys.argv) > 1:
-        basepath = sys.argv[1]
-        os.mkdir("docs" + basepath.rstrip('/'))
-        print(f'Created "docs{basepath.rstrip("/")}" directory.')
+    copy_directory("static", "docs")
     
-    copy_directory("static", "docs" + basepath.rstrip('/'))
-    
-    generate_pages_recursive("content", "docs" + basepath.rstrip('/'))
+    generate_pages_recursive("content", "docs")
 
 main()
