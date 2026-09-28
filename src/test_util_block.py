@@ -1,5 +1,5 @@
 import unittest
-from blocks import BlockType, markdown_to_blocks, block_to_block_type, markdown_to_html_node
+from blocks import BlockType, markdown_to_blocks, block_to_block_type, markdown_to_html_node, extract_title
 
 
 class TestUtilBlock(unittest.TestCase):
@@ -172,7 +172,7 @@ DIS-OS REPORT 01/09/102023
 FATAL_ERROR: *BR NULL*
 ```
 
-> Become endless?
+> Become endless?c
 > **To hell with that!**
 > I'm happy right _here_, right _now_.
 > Because I love you.
