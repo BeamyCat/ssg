@@ -1,6 +1,8 @@
-import shutil, os
+import shutil, os, sys
 from generate import generate_page
 
+
+basepath = "/"
 
 def copy_directory(source: str, destination: str) -> None:
     contents = os.listdir(source)
@@ -32,15 +34,21 @@ def generate_pages_recursive(source: str, destination: str) -> None:
 
 
 def main() -> None:
-    if os.path.exists("public"):
-        shutil.rmtree("public")
-        print("Removed old public directory.")
+    if os.path.exists("docs"):
+        shutil.rmtree("docs")
+        print("Removed old docs directory.")
     
-    os.mkdir("public")
-    print("Created new public directory.")
+    os.mkdir("docs")
+    print("Created new docs directory.")
     
-    copy_directory("static", "public")
+    global basepath
+    if len(sys.argv) > 1:
+        basepath = sys.argv[1]
+        os.mkdir("docs" + basepath.rstrip('/'))
+        print(f'Created "docs{basepath.rstrip("/")}" directory.')
     
-    generate_pages_recursive("content", "public")
+    copy_directory("static", "docs" + basepath.rstrip('/'))
+    
+    generate_pages_recursive("content", "docs" + basepath.rstrip('/'))
 
 main()
