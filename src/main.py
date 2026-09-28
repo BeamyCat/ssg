@@ -25,7 +25,7 @@ def generate_pages_recursive(source: str, destination: str) -> None:
         path = source + '/' + entry
         target = destination + '/' + entry
         if os.path.isfile(path) and path.endswith('.md'):
-            generate_page(path, "template.html", target.replace('.md', '.html'))
+            generate_page(path, "template.html", target.replace('.md', '.html'), basepath)
         if os.path.isdir(path):
             if not os.path.exists(target):
                 os.mkdir(target)
